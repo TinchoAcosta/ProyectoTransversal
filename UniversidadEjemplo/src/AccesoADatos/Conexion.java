@@ -6,7 +6,7 @@ import java.sql.SQLException;
 import javax.swing.JOptionPane;
 
 public class Conexion {
-    private static String url="jdbc:mariadb://localhost/universidad";
+    private static String url="jdbc:mariadb://localhost/universidadgrupo1";
     private static String usser="root";
     private static String password="";
 

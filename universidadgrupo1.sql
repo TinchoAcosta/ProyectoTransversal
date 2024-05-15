@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 14-05-2024 a las 15:55:31
+-- Tiempo de generación: 15-05-2024 a las 16:47:08
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -18,8 +18,10 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Base de datos: `universidad`
+-- Base de datos: `universidadgrupo1`
 --
+CREATE DATABASE IF NOT EXISTS `universidadgrupo1` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
+USE `universidadgrupo1`;
 
 -- --------------------------------------------------------
 
@@ -44,7 +46,10 @@ INSERT INTO `alumno` (`idAlumno`, `dni`, `apellido`, `nombre`, `fechaNacimiento`
 (1, 43123234, 'Tobares', 'Blas', '2000-04-20', 1),
 (7, 4518592, 'Perez', 'Juan', '2001-05-05', 1),
 (8, 5685213, 'Acosta', 'Martin', '1999-03-02', 1),
-(9, 1234567, 'Moyano', 'Debora', '1998-10-08', 1);
+(9, 1234567, 'Moyano', 'Debora', '1998-10-08', 1),
+(10, 1234, 'pablo', 'gomez', '1999-02-10', 1),
+(11, 34, 'pablo', 'gomez', '1999-02-10', 1),
+(12, 134, 'pablo', 'gomez', '1999-02-10', 1);
 
 -- --------------------------------------------------------
 
@@ -127,7 +132,7 @@ ALTER TABLE `materia`
 -- AUTO_INCREMENT de la tabla `alumno`
 --
 ALTER TABLE `alumno`
-  MODIFY `idAlumno` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `idAlumno` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT de la tabla `inscripcion`
