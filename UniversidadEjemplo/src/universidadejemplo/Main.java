@@ -67,11 +67,11 @@ public class Main {
             //inscrData.actuailizarNota(7, 1, 9);
             
             //PRUEBA MATERIA NO CURSADA
-            /*
-            List<Materia> lista = inscrData.obtenerMateriasNOCursadas(9);
-            for (Materia materia:lista) {
-                System.out.println("nombre materia: "+materia.getNombre());
-            }*/
+            
+//            List<Materia> lista = inscrData.obtenerMateriasNOCursadas(9);
+//            for (Materia materia:lista) {
+//                System.out.println("nombre materia: "+materia.getNombre());
+//            }
             
             //PRUEBA OBTENER ALUMNO POR MATERIA
             /*List<Alumno> lista = inscrData.obtenerAlumnosXMateria(2);

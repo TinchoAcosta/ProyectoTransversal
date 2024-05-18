@@ -164,6 +164,8 @@ public class InscripcionData {
             int fila =ps.executeUpdate();
             if (fila >0) {
                 JOptionPane.showMessageDialog(null, "Inscripcion Borrada con exito ");
+            }else{
+                JOptionPane.showMessageDialog(null, "No se pudo eliminar la inscripcion deseada.");
             }
             ps.close();
         } catch (SQLException ex) {
@@ -183,6 +185,8 @@ public class InscripcionData {
             int fila =ps.executeUpdate();
             if (fila >0) {
                 JOptionPane.showMessageDialog(null, "Nota Actualizada ");
+            }else{
+                JOptionPane.showMessageDialog(null, "No se pudo actualizar la nota deseada.");
             }
             ps.close();
         } catch (SQLException ex) {
