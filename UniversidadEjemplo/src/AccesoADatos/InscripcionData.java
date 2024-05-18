@@ -11,6 +11,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 public class InscripcionData {
@@ -126,5 +128,94 @@ public class InscripcionData {
             JOptionPane.showConfirmDialog(null, "Error al obtener inscripciones."+ex.getMessage());
         }
         return materias;
+    }
+    
+    public List<Materia> obtenerMateriasNOCursadas(int idAlumno){
+        List<Materia> materias = new ArrayList<Materia>();
+        String sql ="SELECT  *  FROM materia WHERE estado = 1 AND idMateria not in "
+                    + "(SELECT  idMateria FROM inscripcion WHERE idAlumno = ?)";
+        try{
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setInt(1, idAlumno);
+            ResultSet rs = ps.executeQuery();
+            Materia materia;
+            while(rs.next()){
+                materia = new Materia();
+                materia.setIdMateria(rs.getInt("idMateria"));
+                materia.setNombre(rs.getString("nombre"));
+                materia.setAño(rs.getInt("año"));
+                materias.add(materia);
+                
+            }
+            ps.close();
+        } catch(SQLException ex){
+            JOptionPane.showConfirmDialog(null, "Error al obtener inscripciones."+ex.getMessage());
+        }
+        return materias;
+    }
+    
+    public void borrarInscripcionMateriaAlumno(int idAlumno, int idMateria){
+    
+    String sql = "DELETE FROM inscripcion WHERE idAlumno = ? AND idMateria = ?";
+    try {
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setInt(1, idAlumno);
+            ps.setInt(2, idMateria);
+            int fila =ps.executeUpdate();
+            if (fila >0) {
+                JOptionPane.showMessageDialog(null, "Inscripcion Borrada con exito ");
+            }
+            ps.close();
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "No se pudo ingresar a la tabla Inscripcion. ERROR: " + ex.getMessage());
+        }
+    }
+    
+    public void actuailizarNota(int idAlumno, int idMateria, int notaNueva){
+    
+        String sql = "UPDATE inscripcion SET nota = ? WHERE idAlumno = ? AND idMateria = ? ";
+    
+        try {
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setInt(1, notaNueva);
+            ps.setInt(2, idAlumno);
+            ps.setInt(3, idMateria);
+            int fila =ps.executeUpdate();
+            if (fila >0) {
+                JOptionPane.showMessageDialog(null, "Nota Actualizada ");
+            }
+            ps.close();
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, " No se pudo ingresar a la tabla Inscripcion. ERROR: " + ex.getMessage());
+        }
+    }
+    
+    public List<Alumno> obtenerAlumnosXMateria(int idMateria){
+        List<Alumno> alumnosMaterias = new ArrayList<Alumno>();
+        
+        String sql = "SELECT a.idAlumno, dni, nombre, apellido, fechaNacimiento, estado " +
+             "FROM inscripcion i, alumno a " +
+             "WHERE i.idAlumno = a.idAlumno AND idMateria = ? AND estado = 1";
+        try {
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setInt(1, idMateria);
+            
+            ResultSet rs = ps.executeQuery();
+            Alumno alumno;
+            while(rs.next()){
+                alumno = new Alumno();
+                alumno.setIdAlumno(rs.getInt("idAlumno"));
+                alumno.setDni(rs.getInt("dni"));
+                alumno.setNombre(rs.getString("nombre"));
+                alumno.setApellido(rs.getString("apellido"));
+                alumno.setFechaNacimiento(rs.getDate("fechaNacimiento").toLocalDate());
+                alumno.setEstado(rs.getBoolean("estado"));
+                alumnosMaterias.add(alumno);
+            }
+            ps.close();
+        } catch (SQLException ex) {
+            JOptionPane.showConfirmDialog(null, "Error al ingresar a la tabla."+ex.getMessage());
+        }
+        return alumnosMaterias;
     }
 }
