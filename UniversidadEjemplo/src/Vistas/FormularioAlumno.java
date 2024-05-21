@@ -6,6 +6,10 @@ package Vistas;
 
 import AccesoADatos.AlumnoData;
 import Entidades.Alumno;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.util.Date;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -18,6 +22,7 @@ public class FormularioAlumno extends javax.swing.JInternalFrame {
      */
     public FormularioAlumno() {
         initComponents();
+        jCalendar.setVisible(false);
     }
 
     /**
@@ -43,6 +48,13 @@ public class FormularioAlumno extends javax.swing.JInternalFrame {
         jbEliminar = new javax.swing.JButton();
         jbGuardar = new javax.swing.JButton();
         jbSalir = new javax.swing.JButton();
+        jbCalendario = new javax.swing.JButton();
+        jtfFechanac = new javax.swing.JTextField();
+        jCalendar = new com.toedter.calendar.JCalendar();
+        jtfId = new javax.swing.JTextField();
+        jlId = new javax.swing.JLabel();
+        jbBuscarId = new javax.swing.JButton();
+        jbModificar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setTitle("Formulario de alumnos");
@@ -69,15 +81,69 @@ public class FormularioAlumno extends javax.swing.JInternalFrame {
         });
 
         jbNuevo.setText("Nuevo");
+        jbNuevo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbNuevoActionPerformed(evt);
+            }
+        });
 
         jbEliminar.setText("Eliminar");
+        jbEliminar.setEnabled(false);
+        jbEliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbEliminarActionPerformed(evt);
+            }
+        });
 
         jbGuardar.setText("Guardar");
+        jbGuardar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbGuardarActionPerformed(evt);
+            }
+        });
 
         jbSalir.setText("Salir");
         jbSalir.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jbSalirActionPerformed(evt);
+            }
+        });
+
+        jbCalendario.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/icono-calendario.png"))); // NOI18N
+        jbCalendario.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbCalendarioActionPerformed(evt);
+            }
+        });
+
+        jCalendar.setPreferredSize(new java.awt.Dimension(171, 121));
+        jCalendar.setWeekOfYearVisible(false);
+        jCalendar.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            public void propertyChange(java.beans.PropertyChangeEvent evt) {
+                jCalendarPropertyChange(evt);
+            }
+        });
+
+        jtfId.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jtfIdActionPerformed(evt);
+            }
+        });
+
+        jlId.setText("Id");
+
+        jbBuscarId.setText("Buscar");
+        jbBuscarId.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbBuscarIdActionPerformed(evt);
+            }
+        });
+
+        jbModificar.setText("Modificar");
+        jbModificar.setEnabled(false);
+        jbModificar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbModificarActionPerformed(evt);
             }
         });
 
@@ -90,68 +156,98 @@ public class FormularioAlumno extends javax.swing.JInternalFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jlDocumento)
                             .addComponent(jlNombre)
+                            .addComponent(jlDocumento)
                             .addComponent(jlApellido)
-                            .addComponent(jLabel5))
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(74, 74, 74)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(jtfDocumento, javax.swing.GroupLayout.DEFAULT_SIZE, 90, Short.MAX_VALUE)
-                                    .addComponent(jtfNombre)
-                                    .addComponent(jtfApellido))
-                                .addGap(43, 43, 43)
-                                .addComponent(jbBuscar))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(110, 110, 110)
-                                .addComponent(jcbEstado))))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jlFecha)
                             .addGroup(layout.createSequentialGroup()
-                                .addGap(9, 9, 9)
-                                .addComponent(jbNuevo)
-                                .addGap(26, 26, 26)
-                                .addComponent(jbEliminar)
-                                .addGap(26, 26, 26)
-                                .addComponent(jbGuardar)))
-                        .addGap(26, 26, 26)
-                        .addComponent(jbSalir)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jcbEstado))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jlId)
+                                .addGap(18, 18, 18)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jbNuevo)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jtfId, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(jbBuscarId, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                        .addGap(46, 46, 46)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jtfNombre)
+                                    .addComponent(jtfApellido)
+                                    .addComponent(jtfFechanac)
+                                    .addComponent(jtfDocumento))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jbBuscar)
+                                    .addComponent(jbCalendario, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(jCalendar, javax.swing.GroupLayout.DEFAULT_SIZE, 244, Short.MAX_VALUE)))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(jbModificar)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jbEliminar)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jbGuardar)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jbSalir)
+                        .addGap(6, 6, 6)))
+                .addGap(70, 70, 70))
         );
+
+        layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jlApellido, jlDocumento, jlFecha, jlNombre});
+
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jlDocumento)
-                            .addComponent(jtfDocumento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jbBuscar))
-                        .addGap(26, 26, 26)
-                        .addComponent(jlNombre))
-                    .addComponent(jtfNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jtfDocumento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jbBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jlDocumento))
                 .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jlApellido, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jtfApellido, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(30, 30, 30)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(layout.createSequentialGroup()
+                    .addComponent(jlNombre)
+                    .addComponent(jtfNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(23, 23, 23)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jlApellido)
+                    .addComponent(jtfApellido, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jlFecha)
-                        .addGap(18, 18, 18)
-                        .addComponent(jLabel5))
-                    .addComponent(jcbEstado))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 40, Short.MAX_VALUE)
+                        .addComponent(jtfFechanac, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jbCalendario, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(21, 21, 21)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel5)
+                            .addComponent(jcbEstado))
+                        .addGap(22, 22, 22)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jlId)
+                            .addComponent(jtfId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jbBuscarId)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jCalendar, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(20, 20, 20)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jbNuevo)
+                    .addComponent(jbModificar)
                     .addComponent(jbEliminar)
                     .addComponent(jbGuardar)
                     .addComponent(jbSalir))
-                .addGap(20, 20, 20))
+                .addContainerGap(36, Short.MAX_VALUE))
         );
+
+        layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {jLabel5, jlApellido, jlDocumento, jlFecha, jlNombre});
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -162,34 +258,151 @@ public class FormularioAlumno extends javax.swing.JInternalFrame {
 
     private void jbBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbBuscarActionPerformed
         int dni;
-        boolean estado;
-        String apellido,nombre;
-        AlumnoData aluData=new AlumnoData();
-        
+        AlumnoData aluData = new AlumnoData();
         dni = Integer.parseInt(jtfDocumento.getText());
-        
         Alumno a = aluData.buscarAlumnoPorDni(dni);
-        
+
         jtfNombre.setText(a.getNombre());
         jtfApellido.setText(a.getApellido());
         jcbEstado.setSelected(true);
+        Date date = java.sql.Date.valueOf(a.getFechaNacimiento());//convierto la fecha en Date para cambiar el formato
+        jtfFechanac.setText(date + "");
+        jtfId.setText(a.getIdAlumno() + "");
+        AccesoCampos(false);
+        jbEliminar.setEnabled(true);
+        jbModificar.setEnabled(true);
+        jbGuardar.setEnabled(false);
     }//GEN-LAST:event_jbBuscarActionPerformed
 
+    private void jCalendarPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_jCalendarPropertyChange
+        if (evt.getOldValue() != null) {
+            SimpleDateFormat ff = new SimpleDateFormat("yyyy-MM-dd");
+            jtfFechanac.setText(ff.format(jCalendar.getCalendar().getTime())); //escribe el valor del calendario en el textfield
+        }
+    }//GEN-LAST:event_jCalendarPropertyChange
+
+    private void jbCalendarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbCalendarioActionPerformed
+        if (jCalendar.isVisible()) {
+            jCalendar.setVisible(false);
+        } else {
+            jCalendar.setVisible(true);
+        }
+    }//GEN-LAST:event_jbCalendarioActionPerformed
+
+    private void jbEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbEliminarActionPerformed
+
+        AlumnoData a = new AlumnoData();
+        int id = Integer.parseInt(jtfId.getText());
+        a.eliminarAlumno(id);
+        jbEliminar.setEnabled(false);
+        jbModificar.setEnabled(false);
+    }//GEN-LAST:event_jbEliminarActionPerformed
+
+    private void jbGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbGuardarActionPerformed
+        int dni;
+        boolean estado;
+        String apellido, nombre;
+        LocalDate fechaNac;
+        try {
+            dni = Integer.parseInt(jtfDocumento.getText());
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "El dni debe ser un nro.");
+            return;
+        }
+        nombre = jtfNombre.getText();
+        apellido = jtfApellido.getText();
+        try {
+            fechaNac = LocalDate.parse(jtfFechanac.getText());
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "El formato de la fecha debe ser yyyy/mm/dd");
+            return;
+        }
+        Alumno alum = new Alumno(dni, apellido, nombre, fechaNac, true);
+        AlumnoData alumData = new AlumnoData();
+        alumData.guardarAlumno(alum);
+        limpiarCampos();
+    }//GEN-LAST:event_jbGuardarActionPerformed
+
+    private void jtfIdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtfIdActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jtfIdActionPerformed
+
+    private void jbBuscarIdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbBuscarIdActionPerformed
+
+        int id;
+        AlumnoData aluData = new AlumnoData();
+        id = Integer.parseInt(jtfId.getText());
+        Alumno a = aluData.buscarAlumno(id);
+
+        jtfNombre.setText(a.getNombre());
+        jtfApellido.setText(a.getApellido());
+        jcbEstado.setSelected(a.isEstado());
+        Date date = java.sql.Date.valueOf(a.getFechaNacimiento());//convierto la fecha en Date para cambiar el formato
+        jtfFechanac.setText(date + "");
+        jtfDocumento.setText(a.getDni() + "");
+        jbEliminar.setEnabled(true);
+        AccesoCampos(false);
+        jbModificar.setEnabled(true);
+        jbGuardar.setEnabled(false);
+    }//GEN-LAST:event_jbBuscarIdActionPerformed
+
+    private void jbNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbNuevoActionPerformed
+        limpiarCampos();
+        AccesoCampos(true);
+        jbGuardar.setEnabled(true);
+        jbModificar.setEnabled(false);
+        jbEliminar.setEnabled(false);
+    }//GEN-LAST:event_jbNuevoActionPerformed
+
+    private void jbModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbModificarActionPerformed
+        Alumno alum = new Alumno();
+        AlumnoData a = new AlumnoData();
+        alum.setDni(Integer.parseInt(jtfDocumento.getText()));
+        alum.setNombre(jtfNombre.getText());
+        alum.setApellido(jtfApellido.getText());
+        LocalDate fechaNac = LocalDate.parse(jtfFechanac.getText());
+        alum.setFechaNacimiento(fechaNac);
+        alum.setIdAlumno(Integer.parseInt(jtfId.getText()));
+        a.modificarAlumno(alum);
+        jbEliminar.setEnabled(false);
+        jbModificar.setEnabled(false);
+    }//GEN-LAST:event_jbModificarActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private com.toedter.calendar.JCalendar jCalendar;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JButton jbBuscar;
+    private javax.swing.JButton jbBuscarId;
+    private javax.swing.JButton jbCalendario;
     private javax.swing.JButton jbEliminar;
     private javax.swing.JButton jbGuardar;
+    private javax.swing.JButton jbModificar;
     private javax.swing.JButton jbNuevo;
     private javax.swing.JButton jbSalir;
     private javax.swing.JCheckBox jcbEstado;
     private javax.swing.JLabel jlApellido;
     private javax.swing.JLabel jlDocumento;
     private javax.swing.JLabel jlFecha;
+    private javax.swing.JLabel jlId;
     private javax.swing.JLabel jlNombre;
     private javax.swing.JTextField jtfApellido;
     private javax.swing.JTextField jtfDocumento;
+    private javax.swing.JTextField jtfFechanac;
+    private javax.swing.JTextField jtfId;
     private javax.swing.JTextField jtfNombre;
     // End of variables declaration//GEN-END:variables
+
+    private void AccesoCampos(boolean estado) {
+        jcbEstado.setEnabled(estado);
+        jtfId.setEnabled(estado);
+    }
+
+    private void limpiarCampos() {
+        jtfNombre.setText("");
+        jtfDocumento.setText("");
+        jtfApellido.setText("");
+        jtfId.setText("");
+        jtfFechanac.setText("");
+        jcbEstado.setSelected(true);
+    }
 }

@@ -55,7 +55,7 @@ public class AlumnoData {
                 alumno.setFechaNacimiento(rs.getDate("fechaNacimiento").toLocalDate());
                 alumno.setEstado(true);
             } else {
-                JOptionPane.showMessageDialog(null, "No existe el alumno");
+                JOptionPane.showMessageDialog(null, "No existe alumno activo en la base de datos");
             }
             ps.close();
         } catch (SQLException ex) {
@@ -65,7 +65,7 @@ public class AlumnoData {
         }
         return alumno;
     }
-    
+
     public Alumno buscarAlumnoPorDni(int dni) {
         Alumno alumno = null;
         String sql = "SELECT idAlumno, apellido, nombre, fechaNacimiento FROM alumno WHERE dni = ? AND estado = 1";
@@ -83,7 +83,7 @@ public class AlumnoData {
                 alumno.setFechaNacimiento(rs.getDate("fechaNacimiento").toLocalDate());
                 alumno.setEstado(true);
             } else {
-                JOptionPane.showMessageDialog(null, "No existe el alumno con el dni "+dni);
+                JOptionPane.showMessageDialog(null, "No existe el alumno con el dni " + dni);
             }
             ps.close();
         } catch (SQLException ex) {
