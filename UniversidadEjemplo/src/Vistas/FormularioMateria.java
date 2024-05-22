@@ -6,13 +6,17 @@ package Vistas;
 
 import AccesoADatos.MateriaData;
 import Entidades.Materia;
+import javax.swing.JOptionPane;
+import javax.swing.JTextField;
 
 /**
  *
  * @author debor
  */
 public class FormularioMateria extends javax.swing.JInternalFrame {
-
+    
+    private final String expRegNum = "^[1-9][0-9]*$";
+    private final String expRegLetra = "^\\D+$";
     /**
      * Creates new form FormularioMateria
      */
@@ -160,11 +164,12 @@ public class FormularioMateria extends javax.swing.JInternalFrame {
                     .addComponent(jlNombreMateria)
                     .addComponent(jtNombreMateria, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(21, 21, 21)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jlAñoMateria)
-                    .addComponent(jtAñoMateria, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jlEstadoMateria)
-                    .addComponent(jcEstado))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jcEstado, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jlAñoMateria)
+                        .addComponent(jtAñoMateria, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jlEstadoMateria)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 44, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jbNuevoMateria)
@@ -183,9 +188,13 @@ public class FormularioMateria extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jtIdMateriaActionPerformed
 
     private void jbEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbEliminarActionPerformed
-        Materia mat = new Materia();
+        int id;
+        if(validarNum(jtIdMateria)){
+            id = Integer.parseInt(jtIdMateria.getText());            
+        }else{
+            return;
+        }       
         MateriaData matData = new MateriaData();
-        int id = Integer.parseInt(jtIdMateria.getText());
         matData.eliminarMateria(id);
         jbEliminar.setEnabled(false);
         jbModificar.setEnabled(false);
@@ -201,8 +210,14 @@ public class FormularioMateria extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jbSalirMateriaActionPerformed
 
     private void jbBuscarMatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbBuscarMatActionPerformed
+        int id;
+        if(validarNum(jtIdMateria)){
+            id = Integer.parseInt(jtIdMateria.getText());            
+        }else{
+            return;
+        }
+        
         MateriaData MatData = new MateriaData();
-        int id = Integer.parseInt(jtIdMateria.getText());
         Materia mat = MatData.buscarMateria(id);
         jtNombreMateria.setText(mat.getNombre());
         jtAñoMateria.setText(mat.getAño() + "");
@@ -215,21 +230,48 @@ public class FormularioMateria extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jbBuscarMatActionPerformed
 
     private void jbGuardarMateriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbGuardarMateriaActionPerformed
-
+        String nombre;
+        int anio; 
+        
+        if(validarNombre()){
+            nombre = jtNombreMateria.getText();            
+        }else{
+            return;
+        }
+        
+        if(validarNum(jtAñoMateria)){
+            anio = Integer.parseInt(jtAñoMateria.getText());            
+        }else{
+            return;
+        }
+        
         MateriaData matData = new MateriaData();
-        String nombre = jtNombreMateria.getText();
-        int anio = Integer.parseInt(jtAñoMateria.getText());
         Materia m = new Materia(anio, nombre, true);
         matData.guardarMateria(m);
         limpiarCampos();
     }//GEN-LAST:event_jbGuardarMateriaActionPerformed
 
     private void jbModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbModificarActionPerformed
+        int año,id;
+        String nombre;
+        
+        if(validarNum(jtIdMateria) && validarNum(jtAñoMateria)){
+            id = Integer.parseInt(jtIdMateria.getText());
+            año = Integer.parseInt(jtAñoMateria.getText());          
+        }else{
+            return;
+        }
+        if(validarNombre()){
+            nombre = jtNombreMateria.getText();            
+        }else{
+            return;
+        }
+                
         MateriaData matData = new MateriaData();
         Materia m = new Materia();
-        m.setIdMateria(Integer.parseInt(jtIdMateria.getText()));
-        m.setAño(Integer.parseInt(jtAñoMateria.getText()));
-        m.setNombre(jtNombreMateria.getText());
+        m.setIdMateria(id);
+        m.setAño(año);
+        m.setNombre(nombre);
         matData.modificarMateria(m);
         jbEliminar.setEnabled(false);
         jbModificar.setEnabled(false);
@@ -262,6 +304,27 @@ public class FormularioMateria extends javax.swing.JInternalFrame {
         jtNombreMateria.setText("");
         jtIdMateria.setText("");
         jtAñoMateria.setText("");
+    }
+    
+    private boolean validarNum(JTextField jtf) {
+        if(jtf.getText().matches(expRegNum)){
+            return true;            
+        }else{
+            JOptionPane.showMessageDialog(this, "Ingrese un número válido (número mayor a 0) en ID y/o Año.");
+            return false;
+        }
+    }
+    
+    private boolean validarNombre(){
+        if(jtNombreMateria.getText().equals("")){
+            JOptionPane.showMessageDialog(this, "Ingrese un nombre.");
+            return false;
+        }
+        if(!jtNombreMateria.getText().matches(expRegLetra)){
+            JOptionPane.showMessageDialog(this, "El nombre NO puede contener números.");
+            return false;
+        }
+        return true;
     }
 
 }
