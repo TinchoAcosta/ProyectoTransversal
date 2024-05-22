@@ -16,7 +16,9 @@ import javax.swing.JOptionPane;
  * @author PC
  */
 public class FormularioAlumno extends javax.swing.JInternalFrame {
-
+    
+    private final String expRegNum = "^[1-9][0-9]*$";
+    private final String expRegLetra = "^\\D+$";
     /**
      * Creates new form FormularioAlumno
      */
@@ -258,10 +260,21 @@ public class FormularioAlumno extends javax.swing.JInternalFrame {
 
     private void jbBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbBuscarActionPerformed
         int dni;
+        
+        if(validarDni()){
+            dni = Integer.parseInt(jtfDocumento.getText());            
+        }else{
+            return;
+        }
+        
+        
         AlumnoData aluData = new AlumnoData();
-        dni = Integer.parseInt(jtfDocumento.getText());
         Alumno a = aluData.buscarAlumnoPorDni(dni);
-
+        
+        if(a==null){
+            return;
+        }
+        
         jtfNombre.setText(a.getNombre());
         jtfApellido.setText(a.getApellido());
         jcbEstado.setSelected(true);
@@ -290,9 +303,14 @@ public class FormularioAlumno extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jbCalendarioActionPerformed
 
     private void jbEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbEliminarActionPerformed
-
+        int  id;
         AlumnoData a = new AlumnoData();
-        int id = Integer.parseInt(jtfId.getText());
+        if(validarId()){
+            id = Integer.parseInt(jtfId.getText());            
+        }else{
+            return;
+        }
+        
         a.eliminarAlumno(id);
         jbEliminar.setEnabled(false);
         jbModificar.setEnabled(false);
@@ -300,21 +318,28 @@ public class FormularioAlumno extends javax.swing.JInternalFrame {
 
     private void jbGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbGuardarActionPerformed
         int dni;
-        boolean estado;
         String apellido, nombre;
         LocalDate fechaNac;
-        try {
-            dni = Integer.parseInt(jtfDocumento.getText());
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, "El dni debe ser un nro.");
+        
+        if(validarDni()){
+            dni = Integer.parseInt(jtfDocumento.getText());            
+        }else{
+            return;
+        }   
+        
+        if(validarNyA()){
+            nombre = jtfNombre.getText();
+            apellido = jtfApellido.getText();            
+        }else{
             return;
         }
-        nombre = jtfNombre.getText();
-        apellido = jtfApellido.getText();
+        
         try {
             fechaNac = LocalDate.parse(jtfFechanac.getText());
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "El formato de la fecha debe ser yyyy/mm/dd");
+            System.out.println("ERROR: "+e.getMessage());
+            e.printStackTrace();
             return;
         }
         Alumno alum = new Alumno(dni, apellido, nombre, fechaNac, true);
@@ -328,12 +353,18 @@ public class FormularioAlumno extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jtfIdActionPerformed
 
     private void jbBuscarIdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbBuscarIdActionPerformed
-
         int id;
+        if(validarId()){
+            id = Integer.parseInt(jtfId.getText());            
+        }else{
+            return;
+        }
+        
         AlumnoData aluData = new AlumnoData();
-        id = Integer.parseInt(jtfId.getText());
         Alumno a = aluData.buscarAlumno(id);
-
+        if(a==null){
+            return;
+        }
         jtfNombre.setText(a.getNombre());
         jtfApellido.setText(a.getApellido());
         jcbEstado.setSelected(a.isEstado());
@@ -357,12 +388,36 @@ public class FormularioAlumno extends javax.swing.JInternalFrame {
     private void jbModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbModificarActionPerformed
         Alumno alum = new Alumno();
         AlumnoData a = new AlumnoData();
-        alum.setDni(Integer.parseInt(jtfDocumento.getText()));
-        alum.setNombre(jtfNombre.getText());
-        alum.setApellido(jtfApellido.getText());
-        LocalDate fechaNac = LocalDate.parse(jtfFechanac.getText());
-        alum.setFechaNacimiento(fechaNac);
-        alum.setIdAlumno(Integer.parseInt(jtfId.getText()));
+        
+        if(validarDni()){
+            alum.setDni(Integer.parseInt(jtfDocumento.getText()));            
+        }else{
+            return;
+        }
+        
+        if(validarNyA()){
+            alum.setNombre(jtfNombre.getText());      
+            alum.setApellido(jtfApellido.getText());            
+        }else{
+            return;
+        }
+        
+        try{
+            LocalDate fechaNac = LocalDate.parse(jtfFechanac.getText());        
+            alum.setFechaNacimiento(fechaNac);            
+        }catch(Exception e){
+            JOptionPane.showMessageDialog(this, "El formato de la fecha debe ser yyyy/mm/dd");
+            System.out.println("ERROR: "+e.getMessage());
+            e.printStackTrace();
+            return;
+        }
+        
+        if(validarId()){
+            alum.setIdAlumno(Integer.parseInt(jtfId.getText()));            
+        }else{
+            return;
+        }
+        
         a.modificarAlumno(alum);
         jbEliminar.setEnabled(false);
         jbModificar.setEnabled(false);
@@ -404,5 +459,42 @@ public class FormularioAlumno extends javax.swing.JInternalFrame {
         jtfId.setText("");
         jtfFechanac.setText("");
         jcbEstado.setSelected(true);
+    }
+
+    private boolean validarDni() {
+        if(jtfDocumento.getText().equals("")){
+            JOptionPane.showMessageDialog(this, "Ingrese un documento.");
+            return false;
+        }
+        if(!jtfDocumento.getText().matches(expRegNum)){
+            JOptionPane.showMessageDialog(this, "El documento solo puede contener números y NO puede empezar con 0");
+            return false;
+        }
+        return true;
+    }
+
+    private boolean validarNyA() {
+        if(!jtfNombre.getText().matches(expRegLetra) || !jtfApellido.getText().matches(expRegLetra)){
+            JOptionPane.showMessageDialog(this, "El nombre y el apellido NO pueden tener números.");
+            return false;
+        }
+        if(jtfNombre.getText().equals("")){
+            JOptionPane.showMessageDialog(this, "Ingrese un nombre.");     
+            return false;
+        }
+        if(jtfApellido.getText().equals("")){
+            JOptionPane.showMessageDialog(this, "Ingrese un apellido.");   
+            return false;
+        }
+        return true;
+    }
+
+    private boolean validarId() {
+        if(jtfId.getText().matches(expRegNum)){
+            return true;            
+        }else{
+            JOptionPane.showMessageDialog(this, "Ingrese un ID válido (número mayor a 0)");
+            return false;
+        }
     }
 }
