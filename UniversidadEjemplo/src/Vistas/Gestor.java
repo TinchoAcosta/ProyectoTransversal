@@ -30,7 +30,13 @@ public class Gestor extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        escritorio = new javax.swing.JDesktopPane();
+        ImageIcon icono = new ImageIcon(getClass().getResource("/imagenes/fondo-ulp.png"));
+        Image miImagen=icono.getImage();
+        escritorio = new javax.swing.JDesktopPane(){
+            public void paintComponent(Graphics g){
+                g.drawImage(miImagen, 0, 0, getWidth(), getHeight(), this);
+            }
+        };
         jmbBarraMenu = new javax.swing.JMenuBar();
         jmAlumno = new javax.swing.JMenu();
         jmiFormularioAlumno = new javax.swing.JMenuItem();
@@ -46,7 +52,6 @@ public class Gestor extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Gestor Universidad de la punta");
-        setPreferredSize(new java.awt.Dimension(915, 690));
         setResizable(false);
 
         javax.swing.GroupLayout escritorioLayout = new javax.swing.GroupLayout(escritorio);
