@@ -219,6 +219,9 @@ public class FormularioMateria extends javax.swing.JInternalFrame {
         
         MateriaData MatData = new MateriaData();
         Materia mat = MatData.buscarMateria(id);
+        if(mat==null){
+            return;
+        }
         jtNombreMateria.setText(mat.getNombre());
         jtAñoMateria.setText(mat.getAño() + "");
         jcEstado.setSelected(mat.isEstado());

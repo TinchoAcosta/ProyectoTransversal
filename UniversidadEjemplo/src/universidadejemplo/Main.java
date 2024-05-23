@@ -25,8 +25,8 @@ public class Main {
 //        ad.eliminarAlumno(10);
             
             MateriaData nuevaMateria = new MateriaData();
-            Alumno pepito = ad.buscarAlumno(1);
-            Materia lengua = nuevaMateria.buscarMateria(4);
+            //Alumno pepito = ad.buscarAlumno(1);
+            //Materia lengua = nuevaMateria.buscarMateria(4);
             
             //nuevaMateria.guardarMateria(lengua);
             //System.out.println(nuevaMateria.buscarMateria(4));
@@ -74,11 +74,17 @@ public class Main {
 //            }
             
             //PRUEBA OBTENER ALUMNO POR MATERIA
-            /*List<Alumno> lista = inscrData.obtenerAlumnosXMateria(2);
-            for (Alumno alumno:lista) {
-                System.out.println("id alumno: "+alumno.getIdAlumno());
-                System.out.println("nombre alumno: "+alumno.getNombre());
-            }*/
+//            List<Alumno> lista = inscrData.obtenerAlumnosXMateria(2);
+//            for (Alumno alumno:lista) {
+//                System.out.println("id alumno: "+alumno.getIdAlumno());
+//                System.out.println("nombre alumno: "+alumno.getNombre());
+//            }
+//            List<Materia> lista = inscrData.obtenerMateriasCursadas(8);
+//             for (Materia alumno:lista) {
+//                System.out.println("id alumno: "+alumno.getIdMateria());
+//                System.out.println("nombre alumno: "+alumno.getNombre());
+//            }
+            
     }
     
 }

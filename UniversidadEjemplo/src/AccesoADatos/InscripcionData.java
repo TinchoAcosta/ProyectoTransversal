@@ -11,8 +11,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 public class InscripcionData {
@@ -110,7 +108,8 @@ public class InscripcionData {
             String sql = "SELECT inscripcion.idMateria, nombre, año "
                     + "FROM inscripcion, materia "
                     + "WHERE inscripcion.idMateria = materia.idMateria "
-                    + "AND inscripcion.idAlumno = ?;";
+                    + "AND inscripcion.idAlumno = ? "
+                    + "AND materia.estado = 1;";
             PreparedStatement ps = con.prepareStatement(sql);
             ps.setInt(1, id);
             ResultSet rs = ps.executeQuery();
