@@ -43,6 +43,7 @@ public class Gestor extends javax.swing.JFrame {
         jmiReincorporarAlumno = new javax.swing.JMenuItem();
         jmMateria = new javax.swing.JMenu();
         jmiFormularioMateria = new javax.swing.JMenuItem();
+        jmiRestaurarMateria = new javax.swing.JMenuItem();
         jmAdministracion = new javax.swing.JMenu();
         jmiInscripciones = new javax.swing.JMenuItem();
         jmiNotas = new javax.swing.JMenuItem();
@@ -96,6 +97,14 @@ public class Gestor extends javax.swing.JFrame {
         });
         jmMateria.add(jmiFormularioMateria);
 
+        jmiRestaurarMateria.setText("Restaurar Materia");
+        jmiRestaurarMateria.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jmiRestaurarMateriaActionPerformed(evt);
+            }
+        });
+        jmMateria.add(jmiRestaurarMateria);
+
         jmbBarraMenu.add(jmMateria);
 
         jmAdministracion.setText("Administración");
@@ -109,6 +118,11 @@ public class Gestor extends javax.swing.JFrame {
         jmAdministracion.add(jmiInscripciones);
 
         jmiNotas.setText("Manipulación de notas");
+        jmiNotas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jmiNotasActionPerformed(evt);
+            }
+        });
         jmAdministracion.add(jmiNotas);
 
         jmbBarraMenu.add(jmAdministracion);
@@ -189,6 +203,24 @@ public class Gestor extends javax.swing.JFrame {
         escritorio.moveToFront(fr);
     }//GEN-LAST:event_jmiReincorporarAlumnoActionPerformed
 
+    private void jmiRestaurarMateriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiRestaurarMateriaActionPerformed
+        escritorio.removeAll();
+        escritorio.repaint();
+        FormularioRestaurar fr = new FormularioRestaurar();
+        fr.setVisible(true);
+        escritorio.add(fr);
+        escritorio.moveToFront(fr);
+    }//GEN-LAST:event_jmiRestaurarMateriaActionPerformed
+
+    private void jmiNotasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiNotasActionPerformed
+        escritorio.removeAll();
+        escritorio.repaint();
+        ManipulacionNotas mn = new ManipulacionNotas();
+        mn.setVisible(true);
+        escritorio.add(mn);
+        escritorio.moveToFront(mn);
+    }//GEN-LAST:event_jmiNotasActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -238,6 +270,7 @@ public class Gestor extends javax.swing.JFrame {
     private javax.swing.JMenuItem jmiInscripciones;
     private javax.swing.JMenuItem jmiNotas;
     private javax.swing.JMenuItem jmiReincorporarAlumno;
+    private javax.swing.JMenuItem jmiRestaurarMateria;
     private javax.swing.JMenuItem jmiSalir;
     // End of variables declaration//GEN-END:variables
 }

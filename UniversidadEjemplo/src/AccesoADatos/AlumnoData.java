@@ -93,6 +93,34 @@ public class AlumnoData {
         }
         return alumno;
     }
+    
+    public Alumno buscarAlumnoDadoDeBajaPorDni(int dni) {
+        Alumno alumno = null;
+        String sql = "SELECT idAlumno, apellido, nombre, fechaNacimiento FROM alumno WHERE dni = ? AND estado = 0";
+        PreparedStatement ps = null;
+        try {
+            ps = con.prepareStatement(sql);
+            ps.setInt(1, dni);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                alumno = new Alumno();
+                alumno.setIdAlumno(rs.getInt("idAlumno"));
+                alumno.setDni(dni);
+                alumno.setApellido(rs.getString("apellido"));
+                alumno.setNombre(rs.getString("nombre"));
+                alumno.setFechaNacimiento(rs.getDate("fechaNacimiento").toLocalDate());
+                alumno.setEstado(true);
+            } else {
+                JOptionPane.showMessageDialog(null, "No existe el alumno con el dni " + dni);
+            }
+            ps.close();
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Error al acceder a la tabla Alumno " + ex.getMessage());
+            System.out.println(ex.getErrorCode());
+            ex.printStackTrace();
+        }
+        return alumno;
+    }
 
     public List<Alumno> listarAlumnos() {
         List<Alumno> alumnos = new ArrayList<>();
@@ -179,6 +207,25 @@ public class AlumnoData {
                 JOptionPane.showMessageDialog(null, " Se eliminó el alumno.");
             } else {
                 JOptionPane.showMessageDialog(null, " No se pudo eliminar.");
+            }
+            ps.close();
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, " Error al acceder a la tabla Alumno");
+            System.out.println(ex.getErrorCode());
+            ex.printStackTrace();
+        }
+    }
+    
+    public void ReincorporarAlumno(int id) {
+        try {
+            String sql = "UPDATE alumno SET estado = 1 WHERE idAlumno = ? ";
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setInt(1, id);
+            int fila = ps.executeUpdate();
+            if (fila == 1) {
+                JOptionPane.showMessageDialog(null, " Se reincorporó el alumno.");
+            } else {
+                JOptionPane.showMessageDialog(null, " No se pudo reincorporar.");
             }
             ps.close();
         } catch (SQLException ex) {

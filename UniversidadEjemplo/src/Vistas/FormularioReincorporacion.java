@@ -4,6 +4,12 @@
  */
 package Vistas;
 
+import AccesoADatos.AlumnoData;
+import AccesoADatos.InscripcionData;
+import Entidades.Alumno;
+import java.util.List;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author PC
@@ -13,8 +19,16 @@ public class FormularioReincorporacion extends javax.swing.JInternalFrame {
     /**
      * Creates new form FormularioReincorporacion
      */
+    private final String expRegNum = "^[1-9][0-9]*$";
+    private AlumnoData aluData;
+    private List<Alumno> alumnos;
     public FormularioReincorporacion() {
         initComponents();
+        aluData = new AlumnoData();
+        cargarCombo();
+        jtfNombre.setEditable(false);
+        jtfApellido.setEditable(false);
+        jtfDocumento.setEditable(false);
     }
 
     /**
@@ -26,23 +40,195 @@ public class FormularioReincorporacion extends javax.swing.JInternalFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jlLista = new javax.swing.JLabel();
+        jcbLista = new javax.swing.JComboBox<>();
+        jlDni = new javax.swing.JLabel();
+        jtfDni = new javax.swing.JTextField();
+        jbBuscar = new javax.swing.JButton();
+        jbReincorporar = new javax.swing.JButton();
+        jtfNombre = new javax.swing.JTextField();
+        jtfApellido = new javax.swing.JTextField();
+        jtfDocumento = new javax.swing.JTextField();
+        jlNombre = new javax.swing.JLabel();
+        jlApellido = new javax.swing.JLabel();
+        jlDocumento = new javax.swing.JLabel();
+        jbSalir = new javax.swing.JButton();
+
         setTitle("Formulario de Reincorporación");
+
+        jlLista.setText("Seleccione un alumno:");
+
+        jcbLista.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jcbListaActionPerformed(evt);
+            }
+        });
+
+        jlDni.setText("DNI:");
+
+        jbBuscar.setText("Buscar");
+        jbBuscar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbBuscarActionPerformed(evt);
+            }
+        });
+
+        jbReincorporar.setText("Reincorporar");
+        jbReincorporar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbReincorporarActionPerformed(evt);
+            }
+        });
+
+        jlNombre.setText("Nombre:");
+
+        jlApellido.setText("Apellido:");
+
+        jlDocumento.setText("Documento:");
+
+        jbSalir.setText("Salir");
+        jbSalir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbSalirActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 394, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(139, 139, 139)
+                .addComponent(jbReincorporar)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 68, Short.MAX_VALUE)
+                .addComponent(jbSalir)
+                .addContainerGap())
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(21, 21, 21)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jlDni)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jtfDni))
+                            .addComponent(jlLista))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jbBuscar)
+                                .addGap(62, 62, 62))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(18, 18, 18)
+                                .addComponent(jcbLista, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jlApellido)
+                            .addComponent(jlDocumento)
+                            .addComponent(jlNombre))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jtfDocumento, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 230, Short.MAX_VALUE)
+                            .addComponent(jtfApellido, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jtfNombre, javax.swing.GroupLayout.Alignment.TRAILING))))
+                .addGap(40, 40, 40))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 274, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(14, 14, 14)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jlLista)
+                    .addComponent(jcbLista, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jlDni)
+                    .addComponent(jtfDni, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jbBuscar))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jtfNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jlNombre))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jtfApellido, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jlApellido))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jtfDocumento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jlDocumento))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 22, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jbReincorporar)
+                    .addComponent(jbSalir))
+                .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void jbBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbBuscarActionPerformed
+        int dni;
+        if(jtfDni.getText().matches(expRegNum)){
+           dni = Integer.parseInt(jtfDni.getText());
+           Alumno a = aluData.buscarAlumnoDadoDeBajaPorDni(dni);
+           if(a!=null){
+            jcbLista.setSelectedItem(a);               
+           }
+        }else{
+            JOptionPane.showMessageDialog(this, "Ingrese un DNI válido (mayor a 0)");
+        }     
+    }//GEN-LAST:event_jbBuscarActionPerformed
+
+    private void jcbListaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcbListaActionPerformed
+        Alumno a = (Alumno)jcbLista.getSelectedItem();
+        if(a!=null){
+            jtfNombre.setText(a.getNombre());
+            jtfApellido.setText(a.getApellido());
+            jtfDocumento.setText(a.getDni()+"");            
+        }
+    }//GEN-LAST:event_jcbListaActionPerformed
+
+    private void jbReincorporarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbReincorporarActionPerformed
+       Alumno a = (Alumno)jcbLista.getSelectedItem();
+       if(a!=null){
+           aluData.ReincorporarAlumno(a.getIdAlumno());
+           jtfNombre.setText("");
+           jtfApellido.setText("");
+           jtfDocumento.setText("");
+           jcbLista.removeAllItems();
+           cargarCombo();
+       }else{
+           JOptionPane.showMessageDialog(this, "No hay alumno seleccionado.");
+       }
+    }//GEN-LAST:event_jbReincorporarActionPerformed
+
+    private void jbSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbSalirActionPerformed
+        dispose();
+    }//GEN-LAST:event_jbSalirActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jbBuscar;
+    private javax.swing.JButton jbReincorporar;
+    private javax.swing.JButton jbSalir;
+    private javax.swing.JComboBox<Alumno> jcbLista;
+    private javax.swing.JLabel jlApellido;
+    private javax.swing.JLabel jlDni;
+    private javax.swing.JLabel jlDocumento;
+    private javax.swing.JLabel jlLista;
+    private javax.swing.JLabel jlNombre;
+    private javax.swing.JTextField jtfApellido;
+    private javax.swing.JTextField jtfDni;
+    private javax.swing.JTextField jtfDocumento;
+    private javax.swing.JTextField jtfNombre;
     // End of variables declaration//GEN-END:variables
+
+    private void cargarCombo() {
+        alumnos = aluData.listarAlumnosDadosDeBaja();
+        for (Alumno alumno : alumnos) {
+            jcbLista.addItem(alumno);
+        }
+    }
+
 }

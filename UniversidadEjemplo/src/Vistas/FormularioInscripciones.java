@@ -6,7 +6,6 @@ package Vistas;
 
 import AccesoADatos.AlumnoData;
 import AccesoADatos.InscripcionData;
-import AccesoADatos.MateriaData;
 import Entidades.Alumno;
 import Entidades.Inscripcion;
 import Entidades.Materia;
@@ -25,7 +24,6 @@ public class FormularioInscripciones extends javax.swing.JInternalFrame {
     private final String expRegNum = "^[1-9][0-9]*$";
     private AlumnoData aluData;
     private InscripcionData insData;
-    private MateriaData matData;
     private DefaultTableModel modelo = new DefaultTableModel(){
         public boolean isCellEditable(int fila, int columna){
             return false;
@@ -40,7 +38,6 @@ public class FormularioInscripciones extends javax.swing.JInternalFrame {
         initComponents();
         aluData = new AlumnoData();
         insData = new InscripcionData();
-        matData = new MateriaData();
         cargarCombo();
         armarCabecera();
     }
@@ -291,7 +288,6 @@ public class FormularioInscripciones extends javax.swing.JInternalFrame {
         for (Alumno alumno : alumnos) {
             jcbLista.addItem(alumno);
         }
-        jcbLista.setSelectedIndex(0);
     }
     
     private void armarCabecera(){
