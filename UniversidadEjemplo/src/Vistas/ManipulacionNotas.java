@@ -45,6 +45,10 @@ public class ManipulacionNotas extends javax.swing.JInternalFrame {
         matData = new MateriaData();
         cargarCombo();
         armarCabecera();
+        if(jcbLista.getItemCount()>0){
+            Alumno a = (Alumno)jcbLista.getSelectedItem();
+            cargarTabla(a.getIdAlumno());
+        }
     }
 
     /**
@@ -192,7 +196,7 @@ public class ManipulacionNotas extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jbBuscarActionPerformed
 
     private void jcbListaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcbListaActionPerformed
-        borrarFilas();
+
         int id;
         Alumno a = (Alumno)jcbLista.getSelectedItem();
         if(a!=null){
@@ -238,6 +242,7 @@ public class ManipulacionNotas extends javax.swing.JInternalFrame {
     }
 
     private void cargarTabla(int id) {
+        borrarFilas();
         Materia m;
         inscripciones = insData.obtenerInscripcionesPorAlumno(id);
             for(Inscripcion i : inscripciones){
