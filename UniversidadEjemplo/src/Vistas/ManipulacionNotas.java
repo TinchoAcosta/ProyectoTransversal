@@ -170,12 +170,19 @@ public class ManipulacionNotas extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jbGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbGuardarActionPerformed
-//        int idM, nota;
-//        Alumno a = (Alumno)jcbLista.getSelectedItem();
-//        idM = (Integer)modelo.getValueAt(jtTabla.getSelectedRow(), 0);
-//        nota = (Integer)modelo.getValueAt(jtTabla.getSelectedRow(), 2);
-//        insData.actuailizarNota(a.getIdAlumno(), idM, nota);
-//        System.out.println(nota);
+        int idM, notaCorrecta;
+        String nota;
+        Alumno a = (Alumno)jcbLista.getSelectedItem();
+        try{
+        idM = (Integer)modelo.getValueAt(jtTabla.getSelectedRow(), 0);
+        nota = modelo.getValueAt(jtTabla.getSelectedRow(), 2)+"";
+        notaCorrecta= Integer.parseInt(nota);
+        insData.actuailizarNota(a.getIdAlumno(), idM, notaCorrecta);
+        }catch(Exception e){
+            JOptionPane.showMessageDialog(this, "Error: Seleccione una Materia ");
+            System.out.println(e.getMessage());
+        }
+
     }//GEN-LAST:event_jbGuardarActionPerformed
 
     private void jbSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbSalirActionPerformed
