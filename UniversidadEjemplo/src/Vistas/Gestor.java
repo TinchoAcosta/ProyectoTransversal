@@ -130,6 +130,11 @@ public class Gestor extends javax.swing.JFrame {
         jmConsultas.setText("Consultas");
 
         jmiAlumnoPorMateria.setText("Alumnos por materias");
+        jmiAlumnoPorMateria.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jmiAlumnoPorMateriaActionPerformed(evt);
+            }
+        });
         jmConsultas.add(jmiAlumnoPorMateria);
 
         jmbBarraMenu.add(jmConsultas);
@@ -220,6 +225,15 @@ public class Gestor extends javax.swing.JFrame {
         escritorio.add(mn);
         escritorio.moveToFront(mn);
     }//GEN-LAST:event_jmiNotasActionPerformed
+
+    private void jmiAlumnoPorMateriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiAlumnoPorMateriaActionPerformed
+        escritorio.removeAll();
+        escritorio.repaint();
+        FormularioAlumnosPorMateria AXP = new FormularioAlumnosPorMateria();
+        AXP.setVisible(true);
+        escritorio.add(AXP);
+        escritorio.moveToFront(AXP);
+    }//GEN-LAST:event_jmiAlumnoPorMateriaActionPerformed
 
     /**
      * @param args the command line arguments
